@@ -135,6 +135,21 @@ def touch_heartbeat():
 
 
 def main():
+    if os.environ.get("TEST_EMAIL", "").lower() in ("1", "true", "yes"):
+        log("test email mode")
+        try:
+            sent = send_email(
+                "HSSV watcher test email",
+                "This is a TEST from your HSSV dog neuter watcher.\n\n"
+                "If you received this, email alerts are configured correctly.\n"
+                "No appointment is actually available right now.\n\n"
+                f"Booking page: {BOOKING_URL}\n",
+            )
+        except (smtplib.SMTPException, OSError) as exc:
+            log(f"TEST EMAIL FAILED: {exc}")
+            return 1
+        return 0 if sent else 1
+
     try:
         found = scan()
     except RuntimeError as exc:
