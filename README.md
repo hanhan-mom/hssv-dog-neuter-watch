@@ -53,6 +53,12 @@ gh workflow run "HSSV dog neuter watch"
 gh run watch
 ```
 
+Send a test email to confirm SMTP works (does not check availability):
+
+```bash
+gh workflow run "HSSV dog neuter watch" -f test_email=true
+```
+
 Locally, without email:
 
 ```bash
