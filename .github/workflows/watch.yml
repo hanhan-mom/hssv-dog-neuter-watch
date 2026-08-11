@@ -1,8 +1,8 @@
-name: HSSV dog neuter watch
+name: Dog neuter watch
 
 on:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '0 * * * *'
   workflow_dispatch:
     inputs:
       test_email:
@@ -20,7 +20,7 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 70
     steps:
       - uses: actions/checkout@v4
 
@@ -34,6 +34,8 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
           TEST_EMAIL: ${{ inputs.test_email }}
+          LOOP_MINUTES: '50'
+          INTERVAL_SECONDS: '600'
         run: python check.py
 
       - name: Persist state
